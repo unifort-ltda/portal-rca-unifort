@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Meta RCA - Unifort</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #18212b;
+      --muted: #667085;
+      --line: #d9e0e7;
+      --yellow: #fff5bf;
+      --green: #dff5df;
+      --green-strong: #11a44c;
+      --shadow: 0 10px 28px rgba(16, 24, 40, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #f8fafc 0%, #eef2f6 100%);
+      color: var(--text);
+      padding: 24px;
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .card h2 {
+      margin: 0 0 18px;
+      font-size: 20px;
+    }
+
+    .sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin: -6px 0 18px;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      min-height: 94px;
+    }
+
+    .fill { background: var(--yellow); }
+    .calc { background: var(--green); }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .field small {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 18px;
+      outline: none;
+      background: #fff;
+    }
+
+    input:focus {
+      border-color: var(--green-strong);
+      box-shadow: 0 0 0 3px rgba(17, 164, 76, 0.12);
+    }
+
+    .value {
+      display: flex;
+      align-items: center;
+      min-height: 49px;
+      border: 1px dashed rgba(17, 164, 76, 0.35);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.74);
+      padding: 12px 14px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .summary .item {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .summary .item span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .summary .item strong {
+      font-size: 24px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: var(--green-strong);
+      color: #fff;
+    }
+
+    .secondary {
+      background: #eef2f6;
+      color: var(--text);
+    }
+
+    .note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 14px;
+      line-height: 1.5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+    }
+
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    th {
+      background: #f8fafc;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    @media (max-width: 980px) {
+      .grid, .summary, .fields { grid-template-columns: 1fr; }
+      body { padding: 14px; }
+      .hero h1 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Calculadora de Meta RCA</h1>
+      <p>Preencha os campos amarelos. Os campos verdes são calculados automaticamente para mostrar o potencial da meta.</p>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Dados para preencher</h2>
+        <p class="sub">Base atual + projeção da meta.</p>
+
+        <div class="fields">
+          <div class="field fill">
+            <label for="itensRef">Itens referência</label>
+            <input id="itensRef" type="number" min="0" step="1" value="" />
+            <small>Total de itens da base atual.</small>
+          </div>
+
+          <div class="field fill">
+            <label for="qcRef">QC R</label>
+            <input id="qcRef" type="number" min="0" step="1" value="" />
+            <small>Quantidade de clientes da referência.</small>
+          </div>
+
+          <div class="field fill">
+            <label for="mlfRef">MLF R</label>
+            <input id="mlfRef" type="number" min="0" step="0.01" value="" />
+            <small>MLF da base atual.</small>
+          </div>
+
+          <div class="field calc">
+            <label>IPC referência</label>
+            <div class="value" id="ipcRef">0,00</div>
+            <small>Fórmula: Itens referência ÷ QC R.</small>
+          </div>
+
+          <div class="field calc">
+            <label>R$ itens referência</label>
+            <div class="value" id="rsItensRef">R$ 0,00</div>
+            <small>Fórmula: MLF R ÷ Itens referência.</small>
+          </div>
+
+          <div class="field fill">
+            <label for="qcMeta">QC meta</label>
+            <input id="qcMeta" type="number" min="0" step="1" value="" />
+            <small>Quantidade de clientes projetada.</small>
+          </div>
+
+          <div class="field fill">
+            <label for="itensMeta">Itens meta</label>
+            <input id="itensMeta" type="number" min="0" step="1" value="" />
+            <small>Total de itens projetado.</small>
+          </div>
+
+          <div class="field calc">
+            <label>IPC meta</label>
+            <div class="value" id="ipcMeta">0,00</div>
+            <small>Fórmula: Itens meta ÷ QC meta.</small>
+          </div>
+
+          <div class="field calc">
+            <label>R$ itens meta</label>
+            <div class="value" id="rsItensMeta">R$ 0,00</div>
+            <small>Repete o valor de R$ itens da referência.</small>
+          </div>
+
+          <div class="field calc">
+            <label>MLF meta</label>
+            <div class="value" id="mlfMeta">R$ 0,00</div>
+            <small>Fórmula: QC meta × IPC meta × R$ itens meta.</small>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" onclick="limparCampos()">Limpar</button>
+          <button class="secondary" onclick="window.print()">Imprimir / Salvar em PDF</button>
+        </div>
+
+        <p class="note">Esta versão foi feita para ser simples de enviar e usar. Basta abrir o arquivo HTML em qualquer navegador.</p>
+      </section>
+
+      <section class="card">
+        <h2>Resumo da projeção</h2>
+        <p class="sub">Visão rápida do potencial da meta.</p>
+
+        <div class="summary">
+          <div class="item">
+            <span>QC meta</span>
+            <strong id="sumQc">0</strong>
+          </div>
+          <div class="item">
+            <span>Itens meta</span>
+            <strong id="sumItens">0</strong>
+          </div>
+          <div class="item">
+            <span>MLF meta</span>
+            <strong id="sumMlf">R$ 0,00</strong>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Indicador</th>
+              <th>Referência</th>
+              <th>Meta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>QC</td>
+              <td id="tbQcRef">0</td>
+              <td id="tbQcMeta">0</td>
+            </tr>
+            <tr>
+              <td>Itens</td>
+              <td id="tbItensRef">0</td>
+              <td id="tbItensMeta">0</td>
+            </tr>
+            <tr>
+              <td>IPC</td>
+              <td id="tbIpcRef">0,00</td>
+              <td id="tbIpcMeta">0,00</td>
+            </tr>
+            <tr>
+              <td>R$ itens</td>
+              <td id="tbRsRef">R$ 0,00</td>
+              <td id="tbRsMeta">R$ 0,00</td>
+            </tr>
+            <tr>
+              <td>MLF</td>
+              <td id="tbMlfRef">R$ 0,00</td>
+              <td id="tbMlfMeta">R$ 0,00</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="note">Se quiser, esta página também pode evoluir para uma versão com login, nome do RCA, envio por WhatsApp e até geração de link individual.</p>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const campos = ["itensRef", "qcRef", "mlfRef", "qcMeta", "itensMeta"];
+    campos.forEach(id => document.getElementById(id).addEventListener('input', calcular));
+
+    function n(id) {
+      const v = parseFloat(document.getElementById(id).value);
+      return isNaN(v) ? 0 : v;
+    }
+
+    function moeda(valor) {
+      return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function numero(valor, casas = 2) {
+      return valor.toLocaleString('pt-BR', {
+        minimumFractionDigits: casas,
+        maximumFractionDigits: casas
+      });
+    }
+
+    function inteiro(valor) {
+      return Math.round(valor).toLocaleString('pt-BR');
+    }
+
+    function calcular() {
+      const itensRef = n('itensRef');
+      const qcRef = n('qcRef');
+      const mlfRef = n('mlfRef');
+      const qcMeta = n('qcMeta');
+      const itensMeta = n('itensMeta');
+
+      const ipcRef = qcRef > 0 ? itensRef / qcRef : 0;
+      const rsItensRef = itensRef > 0 ? mlfRef / itensRef : 0;
+      const ipcMeta = qcMeta > 0 ? itensMeta / qcMeta : 0;
+      const rsItensMeta = rsItensRef;
+      const mlfMeta = qcMeta * ipcMeta * rsItensMeta;
+
+      document.getElementById('ipcRef').textContent = numero(ipcRef);
+      document.getElementById('rsItensRef').textContent = moeda(rsItensRef);
+      document.getElementById('ipcMeta').textContent = numero(ipcMeta);
+      document.getElementById('rsItensMeta').textContent = moeda(rsItensMeta);
+      document.getElementById('mlfMeta').textContent = moeda(mlfMeta);
+
+      document.getElementById('sumQc').textContent = inteiro(qcMeta);
+      document.getElementById('sumItens').textContent = inteiro(itensMeta);
+      document.getElementById('sumMlf').textContent = moeda(mlfMeta);
+
+      document.getElementById('tbQcRef').textContent = inteiro(qcRef);
+      document.getElementById('tbQcMeta').textContent = inteiro(qcMeta);
+      document.getElementById('tbItensRef').textContent = inteiro(itensRef);
+      document.getElementById('tbItensMeta').textContent = inteiro(itensMeta);
+      document.getElementById('tbIpcRef').textContent = numero(ipcRef);
+      document.getElementById('tbIpcMeta').textContent = numero(ipcMeta);
+      document.getElementById('tbRsRef').textContent = moeda(rsItensRef);
+      document.getElementById('tbRsMeta').textContent = moeda(rsItensMeta);
+      document.getElementById('tbMlfRef').textContent = moeda(mlfRef);
+      document.getElementById('tbMlfMeta').textContent = moeda(mlfMeta);
+    }
+
+    function limparCampos() {
+      document.getElementById('itensRef').value = '';
+      document.getElementById('qcRef').value = '';
+      document.getElementById('mlfRef').value = '';
+      document.getElementById('qcMeta').value = '';
+      document.getElementById('itensMeta').value = '';
+      calcular();
+    }
+
+    calcular();
+  </script>
+</body>
+</html>
