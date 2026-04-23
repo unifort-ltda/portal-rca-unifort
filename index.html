@@ -10,13 +10,18 @@
   <style>
     :root {
       --bg: #03070d;
+      --bg-soft: #07111d;
       --surface: rgba(11, 20, 32, 0.82);
       --surface-strong: rgba(9, 17, 28, 0.96);
+      --surface-light: rgba(255,255,255,0.04);
       --line: rgba(255,255,255,0.08);
+      --line-strong: rgba(255,255,255,0.14);
       --text: #f6f8fb;
       --muted: #9ba8b8;
       --green: #73c13b;
+      --green-soft: rgba(115,193,59,0.18);
       --blue: #2e6fbe;
+      --blue-soft: rgba(46,111,190,0.18);
       --shadow: 0 30px 80px rgba(0,0,0,0.38);
       --radius-xl: 30px;
       --radius-lg: 24px;
@@ -25,6 +30,7 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     html { scroll-behavior: smooth; }
 
     body {
@@ -124,6 +130,7 @@
       background: transparent;
       transition: 0.25s ease;
       font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     .nav a:hover,
@@ -195,6 +202,7 @@
       bottom: 32px;
       border-radius: 28px;
       background: linear-gradient(145deg, rgba(46,111,190,0.14), rgba(115,193,59,0.08));
+      filter: blur(0.5px);
     }
 
     .video-thumb {
@@ -318,6 +326,7 @@
       gap: 10px;
       font-size: 0.92rem;
       font-weight: 700;
+      letter-spacing: -0.02em;
       border: 1px solid transparent;
       transition: 0.25s ease;
     }
@@ -354,6 +363,7 @@
       display: block;
       font-size: 1.55rem;
       line-height: 1;
+      letter-spacing: -0.05em;
       margin-bottom: 8px;
     }
 
@@ -389,6 +399,7 @@
       top: -54px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(46,111,190,0.18), transparent 68%);
+      pointer-events: none;
     }
 
     .mini-top {
@@ -411,8 +422,13 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
     }
 
-    .icon-blue { background: linear-gradient(135deg, rgba(46,111,190,0.30), rgba(46,111,190,0.14)); }
-    .icon-green { background: linear-gradient(135deg, rgba(115,193,59,0.28), rgba(115,193,59,0.12)); }
+    .icon-blue {
+      background: linear-gradient(135deg, rgba(46,111,190,0.30), rgba(46,111,190,0.14));
+    }
+
+    .icon-green {
+      background: linear-gradient(135deg, rgba(115,193,59,0.28), rgba(115,193,59,0.12));
+    }
 
     .arrow {
       width: 52px;
@@ -430,8 +446,9 @@
     .mini-card h3 {
       font-size: 2rem;
       line-height: 0.98;
-      margin: 22px 0 12px;
+      letter-spacing: -0.06em;
       max-width: 230px;
+      margin: 22px 0 12px;
     }
 
     .mini-card p {
@@ -481,6 +498,7 @@
     .feature-card h3 {
       font-size: 2.2rem;
       line-height: 0.96;
+      letter-spacing: -0.07em;
       margin-bottom: 14px;
       max-width: 260px;
     }
@@ -514,6 +532,10 @@
       border-color: transparent;
     }
 
+    .section-grid + .section-grid {
+      margin-top: 24px;
+    }
+
     .video-secondary {
       min-height: 320px;
       padding: 28px;
@@ -525,7 +547,9 @@
         linear-gradient(135deg, rgba(8,16,27,0.95), rgba(4,10,17,0.98));
     }
 
-    .video-secondary .video-thumb img { min-height: 260px; }
+    .video-secondary .video-thumb img {
+      min-height: 260px;
+    }
 
     .bottom-band {
       padding: 20px 22px;
@@ -564,6 +588,7 @@
     .band-claim strong {
       display: block;
       font-size: 1.02rem;
+      letter-spacing: -0.03em;
       line-height: 1.2;
       margin-bottom: 6px;
     }
@@ -577,7 +602,8 @@
 
     .band-claim {
       justify-content: space-between;
-      background: linear-gradient(135deg, rgba(46,111,190,0.10), rgba(115,193,59,0.08));
+      background:
+        linear-gradient(135deg, rgba(46,111,190,0.10), rgba(115,193,59,0.08));
     }
 
     .band-claim strong {
@@ -594,34 +620,66 @@
     }
 
     @media (max-width: 1320px) {
-      .hero-grid, .section-grid, .bottom-band { grid-template-columns: 1fr 1fr; }
-      .hero-card { grid-template-columns: 1fr; }
-      .hero-content { padding: 10px 34px 38px; }
+      .hero-grid,
+      .section-grid,
+      .bottom-band {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-card {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-content {
+        padding: 10px 34px 38px;
+      }
     }
 
     @media (max-width: 960px) {
-      .header-wrap { flex-direction: column; align-items: flex-start; padding: 16px 0; }
-      .hero-grid, .side-grid, .section-grid, .bottom-band { grid-template-columns: 1fr; }
-      .nav { justify-content: flex-start; }
+      .header-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px 0;
+      }
+
+      .hero-grid,
+      .side-grid,
+      .section-grid,
+      .bottom-band {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        justify-content: flex-start;
+      }
+
       .hero-card { min-height: auto; }
       .hero-content { padding: 0 24px 28px; }
       .hero-visual { padding: 24px; }
-      .mini-card, .feature-card { min-height: 320px; }
+      .mini-card,
+      .feature-card { min-height: 320px; }
     }
 
     @media (max-width: 640px) {
       .container { width: min(calc(100% - 20px), var(--max)); }
+      .brand { min-width: auto; }
       .brand img { width: 82px; }
       .brand-title { font-size: 1.45rem; }
       .hero-content h1 { font-size: 2.3rem; }
-      .mini-card h3, .feature-card h3 { font-size: 1.7rem; }
-      .play-premium span { width: 86px; height: 86px; }
+      .mini-card h3,
+      .feature-card h3 { font-size: 1.7rem; }
+      .play-premium span {
+        width: 86px;
+        height: 86px;
+      }
       .play-premium span::before {
         border-left-width: 22px;
         border-top-width: 14px;
         border-bottom-width: 14px;
       }
-      .hero-stats { grid-template-columns: 1fr; }
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -629,7 +687,7 @@
   <header>
     <div class="container header-wrap">
       <div class="brand">
-        <img src="https://unifort-ltda.github.io/portal-rca-unifort/img/logo-unifort.png" alt="Logo Unifort">
+        <img src="img/logo-unifort.png" alt="Logo Unifort">
         <div class="brand-copy">
           <small>Experiência comercial</small>
           <div class="brand-title">Portal <span>RCA</span></div>
@@ -639,11 +697,11 @@
       <nav class="nav">
         <a href="#" class="active">Início</a>
         <a href="#academia">Academia</a>
-        <a href="https://unifort-ltda.github.io/biblioteca-videos/?v=1" target="_blank">Biblioteca</a>
-        <a href="https://unifort.com.br/page/catalogo-de-produtos" target="_blank">Catálogos</a>
-        <a href="https://unifort.com.br/page/fispq" target="_blank">FDS</a>
-        <a href="https://unifort.com.br/page/filiais" target="_blank">Filiais</a>
-        <a href="calculadora-meta.html">Calculadora</a>
+        <a href="#biblioteca">Biblioteca</a>
+        <a href="#catalogos">Catálogos</a>
+        <a href="#fds">FDS</a>
+        <a href="#filiais">Filiais</a>
+        <a href="#calculadora">Calculadora</a>
         <a href="#mkt">MKT</a>
         <a href="#divulgacoes">Divulgações</a>
       </nav>
@@ -654,9 +712,9 @@
     <div class="container">
       <section class="hero-grid">
         <article class="card hero-card">
-          <div class="hero-visual">
+          <div class="hero-visual" style="padding:28px; align-items:center; justify-content:center; min-height:100%; background:linear-gradient(135deg, rgba(31,95,170,0.18), rgba(103,184,47,0.12));">
             <a href="https://www.youtube.com/watch?v=I3eiL53fhLA" target="_blank" class="video-thumb">
-              <img src="https://img.youtube.com/vi/I3eiL53fhLA/hqdefault.jpg" alt="Vídeo institucional Unifort">
+              <img src="img/matriz-drone.png" alt="Vídeo institucional Unifort">
               <span class="play-premium"><span></span></span>
             </a>
           </div>
@@ -666,7 +724,7 @@
             <h1>A plataforma que reúne <span class="green">conteúdo</span>, <span class="blue">ferramentas</span> e performance comercial.</h1>
             <p>Um portal pensado para o RCA encontrar rápido o que realmente importa: vídeos, catálogos, FDS, filiais, calculadora de meta, materiais de marketing e divulgações estratégicas.</p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="https://unifort-ltda.github.io/biblioteca-videos/?v=1" target="_blank">Explorar portal</a>
+              <a class="btn btn-primary" href="#biblioteca">Explorar portal</a>
               <a class="btn btn-secondary" href="https://www.youtube.com/watch?v=I3eiL53fhLA" target="_blank">Assistir institucional</a>
             </div>
             <div class="hero-stats">
@@ -737,7 +795,7 @@
       </section>
 
       <section class="section-grid">
-        <article class="card feature-card visual-1">
+        <article class="card feature-card visual-1" id="fds">
           <div class="feature-top">
             <div class="icon-circle icon-blue">🛡</div>
           </div>
@@ -745,10 +803,10 @@
             <h3>FDS</h3>
             <p>Fichas de dados de segurança organizadas para consulta rápida.</p>
           </div>
-          <a href="https://unifort.com.br/page/fispq" target="_blank" class="feature-btn">Acessar ↗</a>
+          <a href="https://unifort.com.br/page/fispq" target="_blank" class="feature-btn blue">Acessar <span>›</span></a>
         </article>
 
-        <article class="card feature-card visual-2">
+        <article class="card feature-card visual-2" id="calculadora">
           <div class="feature-top">
             <div class="icon-circle icon-green">⌕</div>
           </div>
@@ -756,7 +814,7 @@
             <h3>Calculadora de meta</h3>
             <p>Calcule metas, simule números e acompanhe projeções de resultado.</p>
           </div>
-          <a href="calculadora-meta.html" class="feature-btn green">Calcular ↗</a>
+          <a href="calculadora_meta_rca_unifort(1).html" class="feature-btn green">Calcular <span>›</span></a>
         </article>
 
         <article class="card feature-card visual-3" id="mkt">
@@ -767,7 +825,7 @@
             <h3>MKT</h3>
             <p>Materiais de marketing prontos para uso comercial e campanhas.</p>
           </div>
-          <a href="#" class="feature-btn">Em breve</a>
+          <a href="#" class="feature-btn green">Acessar <span>›</span></a>
         </article>
 
         <article class="card feature-card visual-4" id="divulgacoes">
@@ -778,12 +836,12 @@
             <h3>Divulgações</h3>
             <p>Fique por dentro de novidades, comunicados e atualizações da Unifort.</p>
           </div>
-          <a href="#" class="feature-btn">Ver mais</a>
+          <a href="#" class="feature-btn blue">Ver mais <span>›</span></a>
         </article>
       </section>
 
-      <section class="section-grid">
-        <article class="card feature-card visual-4" style="min-height:320px;">
+      <section class="section-grid" style="margin-top:22px;">
+        <article class="card feature-card visual-4" id="filiais" style="min-height:320px;">
           <div class="feature-top">
             <div class="icon-circle icon-blue">⌖</div>
           </div>
@@ -791,18 +849,18 @@
             <h3>Filiais</h3>
             <p>Consulte as unidades da Unifort com uma navegação mais clara e corporativa.</p>
           </div>
-          <a href="https://unifort.com.br/page/filiais" target="_blank" class="feature-btn">Ver filiais ↗</a>
+          <a href="https://unifort.com.br/page/filiais" target="_blank" class="feature-btn">Ver filiais <span>↗</span></a>
         </article>
 
         <article class="card video-secondary">
-          <a href="https://www.youtube.com/watch?v=e6OQeFC5R2w" target="_blank" class="video-thumb">
+          <a href="https://www.youtube.com/watch?v=e6OQeFC5R2w" target="_blank" class="video-thumb" style="max-width:none;">
             <img src="https://img.youtube.com/vi/e6OQeFC5R2w/maxresdefault.jpg" alt="Vídeo de apresentação do portal">
             <span class="play-premium"><span></span></span>
           </a>
         </article>
       </section>
 
-      <section class="card bottom-band">
+      <section class="bottom-band">
         <div class="band-item">
           <div class="band-icon">🏆</div>
           <div>
@@ -836,17 +894,15 @@
         </div>
 
         <div class="band-claim">
-          <div>
-            <strong>UNIFORT COM <span class="green">VOCÊ</span>,</strong>
-            <span>em todos os caminhos.</span>
-          </div>
+          <strong>UNIFORT COM <span class="green">VOCÊ</span>,</strong>
+          <span>em todos os caminhos.</span>
         </div>
       </section>
     </div>
   </main>
 
   <footer>
-    <div class="container">Portal RCA Unifort • Estrutura visual premium para treinamentos, materiais e apoio comercial.</div>
+    <div class="container">Portal RCA Unifort • Estrutura visual em HTML para treinamentos, materiais e apoio comercial.</div>
   </footer>
 </body>
 </html>
